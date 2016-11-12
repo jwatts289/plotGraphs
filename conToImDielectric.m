@@ -1,9 +1,10 @@
 % converts conductance measurements to imaginary part of dielectric
 % constant
-function imDielectric = conToImDielectric(freq,con,sampleThickness)
+function imDielectric = conToImDielectric(freq,con,constants)
 
-eps0 = 8.85418782E-12;
-electrodeArea = pi*(0.5E-3)^2;
+eps0 = constants.eps0;
+electrodeArea = constants.electrodeArea;
+sampleThickness = constants.sampleThickness;
 
 imDielectric = zeros(size(con));
 
