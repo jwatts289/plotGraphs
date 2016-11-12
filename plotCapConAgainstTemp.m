@@ -2,8 +2,10 @@
 
 readFiles = 1; %determines whether files need reading or not
 
-capFilename = '16-10-18_cap.xlsx';
-conFilename = '16-10-18_con.xlsx';
+dataSet = '16-10-18';
+
+capFilename = [dataSet,'_cap.xlsx'];
+conFilename = [dataSet,'_con.xlsx'];
 
 if readFiles == 1
     [freq,temp,cap,con] = readCapCon(capFilename,conFilename);
@@ -46,4 +48,3 @@ title('dielectric loss')
 legend([num2str(temp(1)),' K'],[num2str(temp(41)),' K'],[num2str(temp(81)),' K'],'Location','southeast')
 
 %end
-
