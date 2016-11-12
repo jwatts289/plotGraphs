@@ -1,11 +1,23 @@
 %function plotCapConAgainstTemp(capFilename,conFilename)
 
-readFiles = 1; %determines whether files need reading or not
+% ----------- user inputs -------------------------------------------------
+
+readFiles =0; %determines whether files need reading or not
 
 dataSet = '16-10-18';
+dataLocation = '../Data/';
 
-capFilename = [dataSet,'_cap.xlsx'];
-conFilename = [dataSet,'_con.xlsx'];
+sampleThickness = 0.5E-3; %m
+
+% -------------------------------------------------------------------------
+
+constants.eps0 = 8.85418782E-12;
+constants.electrodeArea = pi*(0.5E-3)^2;
+constants.sampleThickness = sampleThickness;
+
+% -------------------------------------------------------------------------
+capFilename = [dataLocation,dataSet,'_cap.xlsx'];
+conFilename = [dataLocation,dataSet,'_con.xlsx'];
 
 if readFiles == 1
     [freq,temp,cap,con] = readCapCon(capFilename,conFilename);
@@ -25,12 +37,15 @@ plotFigures('decreasing',tempDec,freq,conDec,'conductance')
 
 
 % run analysis with respect to dielectric loss
-diLoss = conToDielectricLoss(freq,conDec);
-plotFigures('dielectric loss',tempDec,freq,diLoss,'dielectric loss')
+imDielectric = conToImDielectric(freq,conDec,constants);
+plotFigures('Im[Dielectric]',tempDec,freq,imDielectric,'Im[Dielectric]')
+
+reDielectric = capToReDielectric(capDec,constants);
+plotFigures('Re[Dielectric]',tempDec,freq,reDielectric,'Re[Dielectric]')
 
 % for comparison with Arnt figure 1
 % 284.9K = temp(1), 265K = temp(41), 244.8K = temp(81)
-logDielectric = log10(diLoss);
+logDielectric = log10(imDielectric);
 figure
 p = semilogx(freq,logDielectric([1,41,81],:));
 p(1).LineWidth = 2;
@@ -45,6 +60,7 @@ set(ax,'FontName','Times New Roman')
 ylabel('dielectric loss (log scale)')
 xlabel('frequency (Hz)')
 title('dielectric loss')
-legend([num2str(temp(1)),' K'],[num2str(temp(41)),' K'],[num2str(temp(81)),' K'],'Location','southeast')
+legend([num2str(temp(1)),' K'],[num2str(temp(41)),' K'],[num2str(temp(81)),' K'],'Location','northeast')
 
 %end
+

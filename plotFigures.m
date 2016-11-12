@@ -1,5 +1,6 @@
 function plotFigures(name,temp,freq,variable,variablename)
 
+% plot variable against temperature
 figure
 p = plot(temp,variable);
 ax = gca;
@@ -15,27 +16,24 @@ for i=1:size(variable,2)
     p(i).Marker='x';
     end
 end
-%legend(freq);
+freqLegend = arrayToLegend(freq,0,'Hz');
+legend(freqLegend,'Location','best');
 
 %choose subset of temperatures to plot
 numTemp = 10;
 tempIncrement = length(temp)/(numTemp+1);
 tempSubset = round(tempIncrement);
-tempLegend=cell(1,numTemp+1);
-tempLegend{1} = [num2str(temp(round(tempIncrement))),'K'];
-%tempLegend = num2str(round(temp(tempSubset)));
 for i = 2:1:numTemp+1
    tempSubset=[tempSubset,round(i*tempIncrement)];
-   tempLegend{i}=[num2str(temp(round(i*tempIncrement))),'K'];
- %  tempLegend = [tempLegend,',',num2str(temp(round(i*tempIncrement)))];
 end
+tempLegend = arrayToLegend(temp,tempSubset,'K');
 
 figure
 p=semilogx(freq,variable(tempSubset,:));
 xlabel('Frequency (Hz)')
 ylabel(variablename)
 title(name)
-legend(tempLegend);
+legend(tempLegend,'Location','best');
 ax1=gca;
 set(ax1,'FontName','Times New Roman')
 axis tight
