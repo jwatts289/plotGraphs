@@ -62,23 +62,5 @@ xlabel('frequency (Hz)')
 title('dielectric loss')
 legend([num2str(temp(1)),' K'],[num2str(temp(41)),' K'],[num2str(temp(81)),' K'],'Location','northeast')
 
-% calcuting temperature where omega*tau=1 (see pLVIII)
-highFreq = freq(7:11);
-highFreqImDi = imDielectric(:,7:11);
-plotFigures('High Frequencies',tempDec,highFreq,highFreqImDi,'Im[Dielectric]')
-highFreqReDi = reDielectric(:,7:11);
-plotFigures('High Frequencies',tempDec,highFreq,highFreqReDi,'Re[Dielectric]')
-
-lowFreq = freq(1:6);
-lowFreqImDi = imDielectric(:,1:6);
-plotFigures('Low Frequencies',tempDec,lowFreq,lowFreqImDi,'Im[Dielectric]')
-lowFreqReDi = reDielectric(:,1:6);
-plotFigures('Low Frequencies',tempDec,lowFreq,lowFreqReDi,'Re[Dielectric]')
-    
-    % same thing, but with all frequencies plotted individually -> lots of
-    % graphs!
-    %plotIndividualFreqDielectric(tempDec,freq,reDielectric,imDielectric)
-
-
 %end
 
